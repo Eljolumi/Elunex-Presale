@@ -8,6 +8,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
+      position: relative;
     }
     body {
       background-color: #0B2E0B; /* Sehr dunkles Olivegrün */
@@ -16,12 +17,27 @@
       text-align: center;
       padding: 50px;
       height: 100%;
-
-      background-image: url('Elunex.png'); /* Großes E und png */
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; /* fixiert das Wasserzeichen beim Scrollen */
+      top: 0;
+      left: 0;
+      width: 100vw;   /* ganze Breite des Viewports */
+      height: 100vh;  /* ganze Höhe des Viewports */
+      background-image: url('Elunex.png');
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 400px;
-      background-attachment: fixed;
+      background-size: cover; /* Bild bedeckt gesamten Bereich, kann zugeschnitten werden */
+      opacity: 0.05;  /* sehr transparent */
+      pointer-events: none; /* nicht anklickbar */
+      z-index: 0;
+    }
+    .content {
+      position: relative;
+      z-index: 1; /* Text vor dem Wasserzeichen */
     }
     h1 {
       margin-bottom: 20px;
@@ -34,10 +50,12 @@
   </style>
 </head>
 <body>
-  <h1>ELUNEXCHAIN Presale</h1>
-  <p>Willkommen zum Presale des ELUNEXCHAIN Coins (ELX)!</p>
-  <p>Ziel: Die sicherste und schnellste Blockchain der Welt.</p>
-  <p>Coins können mit BTC, ETH, DOGE, SOL oder per Banküberweisung gekauft werden.</p>
-  <p>Der Presale startet bei 0,50 EUR pro ELX und steigt bis 1,00 EUR in Phase 30.</p>
+  <div class="content">
+    <h1>ELUNEXCHAIN Presale</h1>
+    <p>Willkommen zum Presale des ELUNEXCHAIN Coins (ELX)!</p>
+    <p>Ziel: Die sicherste und schnellste Blockchain der Welt.</p>
+    <p>Coins können mit BTC, ETH, DOGE, SOL oder per Banküberweisung gekauft werden.</p>
+    <p>Der Presale startet bei 0,50 EUR pro ELX und steigt bis 1,00 EUR in Phase 30.</p>
+  </div>
 </body>
 </html>
