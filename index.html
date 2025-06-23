@@ -11,7 +11,7 @@
       position: relative;
     }
     body {
-      background-color: #0B2E0B; /* Sehr dunkles Olivegrün */
+      background-color: #0B2E0B; /* Dunkles Olivgrün */
       color: gold;
       font-family: Arial, sans-serif;
       text-align: center;
@@ -22,30 +22,75 @@
     }
     body::before {
       content: "";
-      position: fixed; /* fixiert das Wasserzeichen beim Scrollen */
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;   /* ganze Breite des Viewports */
-      height: 100vh;  /* ganze Höhe des Viewports */
+      width: 100vw;
+      height: 100vh;
       background-image: url('Elunex.png');
       background-repeat: no-repeat;
       background-position: center;
-      background-size: cover; /* Bild bedeckt gesamten Bereich, kann zugeschnitten werden */
-      opacity: 0.05;  /* sehr transparent */
-      pointer-events: none; /* nicht anklickbar */
+      background-size: cover;
+      opacity: 0.05;
+      pointer-events: none;
       z-index: 0;
     }
     .content {
       position: relative;
-      z-index: 1; /* Text vor dem Wasserzeichen */
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
     }
     h1 {
       margin-bottom: 20px;
+      text-align: center;
     }
     p {
       margin: 10px 0;
       font-size: 18px;
       line-height: 1.4;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    select {
+      color: black;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px 20px;
+      background-color: gold;
+      border: none;
+      color: #0B2E0B;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #c8a000;
+    }
+    #paymentDetails {
+      margin-top: 20px;
+      font-weight: bold;
+      background: rgba(255, 215, 0, 0.1);
+      padding: 15px;
+      border-radius: 6px;
+      color: gold;
+      min-height: 40px;
     }
   </style>
 </head>
@@ -56,6 +101,56 @@
     <p>Ziel: Die sicherste und schnellste Blockchain der Welt.</p>
     <p>Coins können mit BTC, ETH, DOGE, SOL oder per Banküberweisung gekauft werden.</p>
     <p>Der Presale startet bei 0,50 EUR pro ELX und steigt bis 1,00 EUR in Phase 30.</p>
+
+    <form id="presaleForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="wallet">Deine ELX Wallet-Adresse</label>
+      <input type="text" id="wallet" name="wallet" placeholder="z.B. ELUNEX Wallet Adresse" required />
+
+      <label for="paymentMethod">Zahlungsart wählen</label>
+      <select id="paymentMethod" name="paymentMethod" required>
+        <option value="" disabled selected>-- Bitte wählen --</option>
+        <option value="BTC">Bitcoin (BTC)</option>
+        <option value="ETH">Ethereum (ETH)</option>
+        <option value="DOGE">Dogecoin (DOGE)</option>
+        <option value="SOL">Solana (SOL)</option>
+        <option value="BANK">Banküberweisung</option>
+      </select>
+
+      <div id="paymentDetails"></div>
+
+      <button type="submit">Registrieren & Zahlungsdetails erhalten</button>
+    </form>
   </div>
+
+  <script>
+    const paymentMethod = document.getElementById('paymentMethod');
+    const paymentDetails = document.getElementById('paymentDetails');
+
+    const addresses = {
+      BTC: "Bitcoin-Adresse: bc1q9q9mjns4l5cftxpvydrlnyzw9lyghuavf90v6w",
+      ETH: "Ethereum-Adresse: 0x01A5bb33E15623E9708801Bb929B29CbDc6DBFcE",
+      DOGE: "Dogecoin-Adresse: DMCXKP8Z8rvvN9dfkAo8CCD9bYTrAkTo1U",
+      SOL: "Solana-Adresse: 7YU4dMyXCRqG8JfzXqQDT2DMbhmXWzXUQtfXTVRy6giw",
+      BANK: "Banküberweisung:\nIBAN: DE84 2305 1030 0511 0759 62\nBIC: NOLADE21SHO\nVerwendungszweck: ELX Presale + Deine Referenznummer"
+    };
+
+    paymentMethod.addEventListener('change', () => {
+      const method = paymentMethod.value;
+      paymentDetails.textContent = addresses[method] || "";
+    });
+
+    // Optional: Formular-Submit abfangen (z.B. Validierung, Anzeige)
+    document.getElementById('presaleForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Danke für deine Registrierung! Die Zahlungsdetails findest du unten.');
+      // Hier kannst du noch erweitern, z.B. Daten speichern oder E-Mail senden.
+    });
+  </script>
 </body>
 </html>
