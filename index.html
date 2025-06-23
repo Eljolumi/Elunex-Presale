@@ -8,19 +8,29 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url('Elunex.png') no-repeat center center fixed;
-      background-size: cover;
       background-color: #1c2b1b; /* dunkles olivegrün */
       color: gold;
+      position: relative;
+      min-height: 100vh;
+    }
+    /* Wasserzeichen Hintergrundbild halbtransparent und über gesamte Seite */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('Elunex.png') no-repeat center center;
+      background-size: cover;
+      opacity: 0.07;
+      z-index: -1;
+      pointer-events: none;
     }
 
     .container {
       max-width: 700px;
-      margin: 0 auto;
+      margin: 40px auto 60px auto;
       padding: 20px;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 12px;
-      margin-top: 40px;
     }
 
     h1, h2 {
@@ -40,6 +50,7 @@
       margin-bottom: 10px;
       border: none;
       border-radius: 4px;
+      font-size: 1rem;
     }
 
     button {
@@ -50,6 +61,8 @@
       border-radius: 4px;
       font-size: 16px;
       cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
     }
 
     button:hover {
@@ -76,6 +89,8 @@
       text-align: center;
       line-height: 25px;
       white-space: nowrap;
+      width: 0%; /* Start bei 0% */
+      transition: width 0.5s ease-in-out;
     }
 
     .payment-info {
@@ -83,11 +98,8 @@
       padding: 15px;
       background: rgba(255, 215, 0, 0.1);
       border-radius: 10px;
-    }
-
-    .payment-info pre {
-      white-space: pre-wrap;
       font-family: monospace;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -103,7 +115,7 @@
     <div class="progress-section">
       <h2>Phase 1 von 30</h2>
       <div class="progress-bar">
-        <div class="progress-bar-fill" style="width: 5%;">2.500 € gesammelt</div>
+        <div class="progress-bar-fill">0 € gesammelt</div>
       </div>
     </div>
 
@@ -134,17 +146,18 @@
 
     <div class="payment-info">
       <h2>Zahlungsinformationen</h2>
-      <pre>
-Bitcoin-Adresse: bc1q9q9mjns4l5cftxpvydrlnyzw9lyghuavf90v6w
-Ethereum-Adresse: 0x01A5bb33E15623E9708801Bb929B29CbDc6DBFcE
-Dogecoin-Adresse: DMCXKP8Z8rvvN9dfkAo8CCD9bYTrAkTo1U
-Solana-Adresse: 7YU4dMyXCRqG8JfzXqQDT2DMbhmXWzXUQtfXTVRy6giw
-
-Banküberweisung:
-IBAN: DE84 2305 1030 0511 0759 62
-BIC: NOLADE21SHO
-Verwendungszweck: ELX Presale + Deine Referenznummer
-      </pre>
+      Bitcoin-Adresse: bc1q9q9mjns4l5cftxpvydrlnyzw9lyghuavf90v6w
+      <br>
+      Ethereum-Adresse: 0x01A5bb33E15623E9708801Bb929B29CbDc6DBFcE
+      <br>
+      Dogecoin-Adresse: DMCXKP8Z8rvvN9dfkAo8CCD9bYTrAkTo1U
+      <br>
+      Solana-Adresse: 7YU4dMyXCRqG8JfzXqQDT2DMbhmXWzXUQtfXTVRy6giw
+      <br><br>
+      Banküberweisung:
+      <br>IBAN: DE84 2305 1030 0511 0759 62
+      <br>BIC: NOLADE21SHO
+      <br>Verwendungszweck: ELX Presale + Deine Referenznummer
     </div>
   </div>
 </body>
