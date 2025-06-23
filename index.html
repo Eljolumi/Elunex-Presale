@@ -6,70 +6,88 @@
   <title>ELUNEXCHAIN Presale</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #1b2b1b;
-      color: gold;
-      background-image: url("Elunex.png");
+      font-family: Arial, sans-serif;
+      background: url('Elunex.png') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background-color: #1c2b1b; /* dunkles olivegrün */
+      color: gold;
     }
+
     .container {
       max-width: 700px;
-      margin: auto;
-      background-color: rgba(0, 0, 0, 0.8);
+      margin: 0 auto;
       padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
       border-radius: 12px;
-      margin-top: 30px;
+      margin-top: 40px;
     }
+
     h1, h2 {
-      color: gold;
+      text-align: center;
     }
+
     label {
       display: block;
       margin-top: 10px;
+      font-weight: bold;
     }
+
     input, select {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       margin-top: 4px;
-      box-sizing: border-box;
-      border-radius: 5px;
+      margin-bottom: 10px;
       border: none;
+      border-radius: 4px;
     }
+
     button {
-      margin-top: 20px;
-      padding: 12px 20px;
       background-color: gold;
+      color: #1c2b1b;
+      padding: 12px;
       border: none;
-      color: #1b2b1b;
-      font-weight: bold;
+      border-radius: 4px;
       font-size: 16px;
       cursor: pointer;
-      border-radius: 5px;
     }
-    .progress {
+
+    button:hover {
+      background-color: #ffd700;
+    }
+
+    .progress-section {
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      width: 100%;
       background-color: #444;
-      border-radius: 20px;
+      border-radius: 10px;
       overflow: hidden;
       height: 25px;
-      margin-top: 10px;
+      margin-bottom: 10px;
     }
-    .progress-bar {
+
+    .progress-bar-fill {
       height: 100%;
       background-color: gold;
-      width: 10%;
+      color: #1c2b1b;
       text-align: center;
-      color: #1b2b1b;
-      font-weight: bold;
       line-height: 25px;
+      white-space: nowrap;
     }
-    .info-box {
-      background-color: #2a3f2a;
-      padding: 10px;
-      margin-top: 20px;
-      border-left: 4px solid gold;
+
+    .payment-info {
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(255, 215, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .payment-info pre {
+      white-space: pre-wrap;
+      font-family: monospace;
     }
   </style>
 </head>
@@ -79,30 +97,30 @@
     <p>
       Willkommen zum Presale des ELUNEXCHAIN Coins (ELX)!<br>
       Ziel: Die sicherste und schnellste Blockchain der Welt.<br>
-      Jetzt einsteigen – zu Vorteilspreisen!
+      Zahlbar via BTC, ETH, DOGE, SOL oder Banküberweisung.
     </p>
 
-    <div class="info-box">
-      <strong>⚠ Hinweis:</strong> ELX wird nach dem Launch der ELUNEXCHAIN an deine Wallet gesendet.
+    <div class="progress-section">
+      <h2>Phase 1 von 30</h2>
+      <div class="progress-bar">
+        <div class="progress-bar-fill" style="width: 5%;">2.500 € gesammelt</div>
+      </div>
     </div>
 
-    <h2>📊 Phase 1 von 30 – Fortschritt</h2>
-    <div class="progress">
-      <div class="progress-bar" id="progressBar">€7.500 gesammelt</div>
-    </div>
+    <form action="https://formspree.io/f/mwpbrrea" method="POST">
+      <h2>Presale Registrierung</h2>
 
-    <form id="presaleForm" action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
       <label for="name">Name</label>
-      <input type="text" name="name" required />
+      <input type="text" id="name" name="name" required />
 
       <label for="email">E-Mail</label>
-      <input type="email" name="email" required />
+      <input type="email" id="email" name="email" required />
 
-      <label for="wallet">Deine zukünftige ELX Wallet-Adresse</label>
-      <input type="text" name="wallet" required />
+      <label for="wallet">Deine ELX Wallet-Adresse</label>
+      <input type="text" id="wallet" name="wallet" placeholder="z.B. ELUNEX Wallet Adresse" required />
 
-      <label for="payment">Zahlungsmethode wählen</label>
-      <select name="payment" required>
+      <label for="paymentMethod">Zahlungsart wählen</label>
+      <select id="paymentMethod" name="paymentMethod" required>
         <option value="">-- Bitte wählen --</option>
         <option value="BTC">Bitcoin (BTC)</option>
         <option value="ETH">Ethereum (ETH)</option>
@@ -111,20 +129,22 @@
         <option value="BANK">Banküberweisung</option>
       </select>
 
-      <button type="submit">Absenden & Zahlungsinfo erhalten</button>
+      <button type="submit">Registrieren & Zahlungsdetails erhalten</button>
     </form>
 
-    <div class="info-box">
-      <h3>💳 Zahlungsinformationen</h3>
-      <p><strong>Bitcoin:</strong> bc1q9q9mjns4l5cftxpvydrlnyzw9lyghuavf90v6w</p>
-      <p><strong>Ethereum:</strong> 0x01A5bb33E15623E9708801Bb929B29CbDc6DBFcE</p>
-      <p><strong>Dogecoin:</strong> DMCXKP8Z8rvvN9dfkAo8CCD9bYTrAkTo1U</p>
-      <p><strong>Solana:</strong> 7YU4dMyXCRqG8JfzXqQDT2DMbhmXWzXUQtfXTVRy6giw</p>
-      <p><strong>Bank:</strong><br>
-        IBAN: DE84 2305 1030 0511 0759 62<br>
-        BIC: NOLADE21SHO<br>
-        Verwendungszweck: ELX Presale + Deine Referenznummer
-      </p>
+    <div class="payment-info">
+      <h2>Zahlungsinformationen</h2>
+      <pre>
+Bitcoin-Adresse: bc1q9q9mjns4l5cftxpvydrlnyzw9lyghuavf90v6w
+Ethereum-Adresse: 0x01A5bb33E15623E9708801Bb929B29CbDc6DBFcE
+Dogecoin-Adresse: DMCXKP8Z8rvvN9dfkAo8CCD9bYTrAkTo1U
+Solana-Adresse: 7YU4dMyXCRqG8JfzXqQDT2DMbhmXWzXUQtfXTVRy6giw
+
+Banküberweisung:
+IBAN: DE84 2305 1030 0511 0759 62
+BIC: NOLADE21SHO
+Verwendungszweck: ELX Presale + Deine Referenznummer
+      </pre>
     </div>
   </div>
 </body>
