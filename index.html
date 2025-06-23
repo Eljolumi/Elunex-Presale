@@ -7,46 +7,76 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
-      color: #222;
-      max-width: 600px;
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #004d00; /* Dunkelgrün */
+      color: gold;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
+
+      /* Wasserzeichen Hintergrund */
+      background-image: url('elunex.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 400px;
+      background-attachment: fixed;
     }
+
     h1, h2 {
-      color: #2a7ae2;
+      color: gold;
+      text-align: center;
     }
+
+    p {
+      font-size: 1.2em;
+      line-height: 1.6;
+    }
+
     label {
       display: block;
       margin-top: 10px;
     }
+
     input, select {
       width: 100%;
       padding: 8px;
       margin-top: 4px;
       box-sizing: border-box;
+      border: none;
+      border-radius: 4px;
     }
+
+    input {
+      color: #004d00;
+      font-weight: bold;
+    }
+
     button {
       margin-top: 20px;
       padding: 10px 20px;
-      background-color: #2a7ae2;
+      background-color: gold;
       border: none;
-      color: white;
+      color: #004d00;
       font-size: 16px;
       cursor: pointer;
       border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
     }
+
     button:hover {
-      background-color: #1a5ec8;
+      background-color: #ccac00;
     }
+
     .section {
-      background: white;
+      background: rgba(0, 0, 0, 0.6);
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 6px #ccc;
+      box-shadow: 0 0 12px gold;
     }
+
     .reference {
       background: #e1f0ff;
       padding: 10px;
@@ -64,19 +94,15 @@
     Coins können mit BTC, ETH, DOGE, SOL oder per Banküberweisung gekauft werden.<br />
     Der Presale startet bei 0,50 EUR pro ELX und steigt bis 1,00 EUR in Phase 30.
   </p>
-
   <div class="section" id="registration-section">
     <h2>Registrierung für den Presale</h2>
     <form id="presaleForm">
       <label for="name">Name</label>
       <input type="text" id="name" required />
-
       <label for="email">E-Mail</label>
       <input type="email" id="email" required />
-
       <label for="wallet">Deine ELX Wallet-Adresse</label>
       <input type="text" id="wallet" placeholder="z.B. ELUNEX Wallet Adresse" required />
-
       <label for="paymentMethod">Zahlungsart wählen</label>
       <select id="paymentMethod" required>
         <option value="">-- Bitte wählen --</option>
@@ -86,101 +112,64 @@
         <option value="SOL">Solana (SOL)</option>
         <option value="BANK">Banküberweisung</option>
       </select>
-
       <button type="submit">Registrieren & Zahlungsdetails erhalten</button>
     </form>
   </div>
-
   <div class="section" id="payment-info" style="display:none;">
     <h2>Zahlungsinformationen</h2>
     <p>Bitte überweise den gewünschten Betrag an eine der folgenden Adressen unter Verwendung der Referenznummer.</p>
     <p><strong>Wichtig:</strong> Bewahre diese Seite und deine Referenznummer gut auf!</p>
-
     <div id="paymentDetails"></div>
-
     <button id="backBtn">Zurück zur Registrierung</button>
   </div>
-
   <script>
     // Beispiel Wallet-Adressen (Platzhalter)
     const walletAddresses = {
-      BTC: "1ELUNEXExampleBTCAddress123456789",
-      ETH: "0xELUNEXExampleETHAddress123456789",
-      DOGE: "DExampleDogecoinAddressELUNEX123",
-      SOL: "ELUNEXSolanaAddressExample123456",
-      BANK: {
-        iban: "DE12 3456 7890 1234 5678 90",
-        bic: "BANKDEFFXXX",
-        kontoinhaber: "Elunex GmbH",
-      }
+      BTC: 'bc1xyz...deinbtcwallet',
+      ETH: '0x123abc...deinethwallet',
+      DOGE: 'DAbc123...deindogewallet',
+      SOL: 'sol123abc...deinsolwallet',
+      BANK: 'DE89 3704 0044 0532 0130 00 (IBAN)',
     };
 
-    function generateReference() {
-      // Einfache Referenznummer: Zeitstempel + Zufallszahl (kann später angepasst werden)
-      const timestamp = Date.now();
-      const random = Math.floor(Math.random() * 9000 + 1000);
-      return `ELX-${timestamp}-${random}`;
-    }
+    const form = document.getElementById('presaleForm');
+    const paymentInfoSection = document.getElementById('payment-info');
+    const registrationSection = document.getElementById('registration-section');
+    const paymentDetailsDiv = document.getElementById('paymentDetails');
+    const backBtn = document.getElementById('backBtn');
 
-    const form = document.getElementById("presaleForm");
-    const paymentInfo = document.getElementById("payment-info");
-    const registrationSection = document.getElementById("registration-section");
-    const paymentDetailsDiv = document.getElementById("paymentDetails");
-    const backBtn = document.getElementById("backBtn");
-
-    form.addEventListener("submit", function (e) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const wallet = document.getElementById("wallet").value.trim();
-      const paymentMethod = document.getElementById("paymentMethod").value;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const wallet = form.wallet.value.trim();
+      const paymentMethod = form.paymentMethod.value;
 
       if (!name || !email || !wallet || !paymentMethod) {
-        alert("Bitte fülle alle Felder aus.");
+        alert('Bitte alle Felder ausfüllen!');
         return;
       }
 
-      const reference = generateReference();
+      // Hier könntest du Referenznummern oder dynamische Beträge einbauen
+      const paymentAddress = walletAddresses[paymentMethod];
+      const referenceNumber = Math.floor(Math.random() * 900000 + 100000); // Zufallsnummer 6-stellig
 
-      // Hier würdest du normalerweise die Daten z.B. an einen Server schicken
-      // Da wir statisch sind, zeigen wir die Zahlungsdetails direkt an
+      paymentDetailsDiv.innerHTML = `
+        <p><strong>Zahlungsmethode:</strong> ${paymentMethod}</p>
+        <p><strong>Adresse / IBAN:</strong> <code>${paymentAddress}</code></p>
+        <p><strong>Referenznummer:</strong> <code>${referenceNumber}</code></p>
+        <p>Bitte sende nach der Überweisung einen Screenshot mit deiner E-Mail-Adresse und Wallet-Adresse an <strong>team@elunex.io</strong>.</p>
+      `;
 
-      let paymentHtml = `<p><strong>Deine Referenznummer:</strong> <span class="reference">${reference}</span></p>`;
-
-      if (paymentMethod === "BANK") {
-        const bank = walletAddresses.BANK;
-        paymentHtml += `
-          <p>Bitte überweise an folgendes Bankkonto:</p>
-          <ul>
-            <li>Kontoinhaber: ${bank.kontoinhaber}</li>
-            <li>IBAN: ${bank.iban}</li>
-            <li>BIC: ${bank.bic}</li>
-            <li>Verwendungszweck / Referenz: <strong>${reference}</strong></li>
-          </ul>
-          <p>Der Betrag entspricht der Anzahl ELX, die du kaufen möchtest, multipliziert mit dem aktuellen Presale-Preis.</p>
-        `;
-      } else {
-        const addr = walletAddresses[paymentMethod];
-        paymentHtml += `
-          <p>Bitte sende deine Zahlung an folgende Wallet-Adresse:</p>
-          <p class="reference">${addr}</p>
-          <p>Verwende als Referenz / Memo deine persönliche Referenznummer: <strong>${reference}</strong></p>
-          <p>Der Betrag entspricht der Anzahl ELX, die du kaufen möchtest, multipliziert mit dem aktuellen Presale-Preis.</p>
-        `;
-      }
-
-      paymentDetailsDiv.innerHTML = paymentHtml;
-
-      // Formular ausblenden, Zahlungsinfos zeigen
-      registrationSection.style.display = "none";
-      paymentInfo.style.display = "block";
+      registrationSection.style.display = 'none';
+      paymentInfoSection.style.display = 'block';
     });
 
-    backBtn.addEventListener("click", function () {
-      // Zurück zur Registrierung
-      registrationSection.style.display = "block";
-      paymentInfo.style.display = "none";
+    backBtn.addEventListener('click', () => {
+      paymentInfoSection.style.display = 'none';
+      registrationSection.style.display = 'block';
+      form.reset();
     });
   </script>
 </body>
